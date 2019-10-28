@@ -291,7 +291,7 @@ class ControllerExtensionShippingecpayLogistic extends Controller
 		// $this->load->language($this->module_path);
 		$order_id = $this->request->get['order_id'];
 
-		$ecpaylogistic_query = $this->db->query("Select * from ecpaylogistic_info where order_id=".$order_id);
+		$ecpaylogistic_query = $this->db->query("Select * from ecpaylogistic_info where order_id=". (int)$order_id);
 
 		if (!$ecpaylogistic_query->num_rows) {
 
@@ -404,7 +404,7 @@ class ControllerExtensionShippingecpayLogistic extends Controller
 					$Result = $AL->BGCreateShippingOrder();
 
 					if ($Result['ResCode'] == 1) {
-						$this->db->query("INSERT INTO `ecpaylogistic_info` SET `order_id` =" . $order_id .", `AllPayLogisticsID` = '" . $Result['AllPayLogisticsID'] ."';");
+						$this->db->query("INSERT INTO `ecpaylogistic_info` SET `order_id` =" . (int)$order_id .", `AllPayLogisticsID` = '" . $this->db->escape($Result['AllPayLogisticsID']) ."';");
 						$sComment = "建立綠界科技物流訂單<br>綠界科技物流訂單編號: " . $Result['AllPayLogisticsID'];
 						if (isset($Result["CVSPaymentNo"]) && !empty($Result["CVSPaymentNo"])) {
 							$sComment .= "<br>寄貨編號: " . $Result["CVSPaymentNo"];
@@ -416,7 +416,7 @@ class ControllerExtensionShippingecpayLogistic extends Controller
 
 						$this->db->query("INSERT INTO " . DB_PREFIX . "order_history SET order_id = '" . (int)$order_id . "', order_status_id = 3, notify = '0', comment = '" . $this->db->escape($sComment) . "', date_added = NOW()");
 						
-						$this->db->query("UPDATE " . DB_PREFIX . "order SET order_status_id = 3 WHERE order_id = ".$order_id);
+						$this->db->query("UPDATE " . DB_PREFIX . "order SET order_status_id = 3 WHERE order_id = ".(int)$order_id);
 						
 
 						$ajax_return['code'] = 799;
@@ -557,7 +557,7 @@ class ControllerExtensionShippingecpayLogistic extends Controller
 	        }
 
 	        // // 判斷物流狀態
-	        $ecpaylogistic_query = $this->db->query("Select * from ecpaylogistic_info where order_id=".$data['order_id']);
+	        $ecpaylogistic_query = $this->db->query("Select * from ecpaylogistic_info where order_id=".(int)$data['order_id']);
 	        if ( $ecpaylogistic_query->num_rows ) {
 	        	$create_shipping_flag = false ; // 已經建立過物流訂單
 	        }
@@ -699,7 +699,7 @@ class ControllerExtensionShippingecpayLogistic extends Controller
 
 
 		// 將門市資訊寫回訂單
-		$this->db->query("UPDATE " . DB_PREFIX . "order SET shipping_address_1 = '".$shipping_address_1."', shipping_address_2 = '" . $shipping_address_2 . "' WHERE order_id = ".(int) $order_id);
+		$this->db->query("UPDATE " . DB_PREFIX . "order SET shipping_address_1 = '".$this->db->escape($shipping_address_1)."', shipping_address_2 = '" . $this->db->escape($shipping_address_2) . "' WHERE order_id = ".(int) $order_id);
 
 
 		// 轉導訂單資訊
