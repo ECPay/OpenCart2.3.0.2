@@ -105,8 +105,7 @@ class ControllerExtensionShippingecpayLogistic extends Controller {
 				'LogisticsSubType' => $al_subtype,
 				'IsCollection' => $al_iscollection,
 				'ServerReplyURL' => $al_srvreply,
-				'ExtraData' => '',
-				'Device' => Device::PC
+				'ExtraData' => ''
 			);
 		} catch (Exception $e) {
 			echo $e->getMessage();
