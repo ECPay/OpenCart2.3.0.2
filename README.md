@@ -1,7 +1,7 @@
 綠界科技 OpenCart 模組
 ===============
 <p align="center">
-<img src="https://img.shields.io/github/release/ECPay/OpenCartOpenCart2.3.0.2.svg" alt="Last Release">
+<img src="https://img.shields.io/github/release/ECPay/OpenCart2.3.0.2.svg" alt="Last Release">
 </p>
 
 提供合作特店以及個人會員使用開放原始碼商店系統時，無須自行處理複雜的檢核，直接透過安裝設定外掛套件，便可以較快速的方式介接綠界系統。
@@ -23,7 +23,7 @@
 -----------------
 | OpenCart  | 模組 |
 | :---------: | :----------: |
-|  2.3.0.2 | 2.0.190801 |
+|  2.3.0.2 | <img src="https://img.shields.io/github/release/ECPay/OpenCart2.3.0.2.svg" alt="Last Release"> |
  
 
 安裝
