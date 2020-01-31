@@ -6,6 +6,7 @@ class ModelExtensionShippingecpaylogistic extends Model {
 	private $setting_prefix = '';
 	private $libraryList = array('EcpayLogisticHelper.php');
 	private $helper = null;
+	private $extend_table_name_response = 'ecpaylogistic_response';
 
 
 	// Constructor
@@ -179,4 +180,63 @@ class ModelExtensionShippingecpaylogistic extends Model {
 
 		return $helper;
 	}
+
+	// 儲存物流訂單回覆
+    public function saveResponse($order_id = 0, $feedback = array()) {
+        if (empty($order_id) === true) {
+            return false;
+        }
+
+        $white_list = array(
+			'MerchantID',
+			'MerchantTradeNo',
+			'RtnCode',
+			'RtnMsg ',
+			'AllPayLogisticsID',
+			'LogisticsType',
+			'LogisticsSubType',
+			'GoodsAmount',
+			'UpdateStatusDate',
+			'ReceiverName',
+			'ReceiverPhone',
+			'ReceiverCellPhone',
+			'ReceiverEmail',
+			'ReceiverAddress',
+			'CVSPaymentNo',
+			'CVSValidationNo',
+			'BookingNote',
+        );
+
+        $inputs = $this->helper->only($feedback, $white_list);
+
+        $insert_sql = 'INSERT INTO `%s`';
+        $insert_sql .= ' (`order_id`, `MerchantID`, `MerchantTradeNo`, `RtnCode`, `RtnMsg `, `AllPayLogisticsID`, `LogisticsType`, `LogisticsSubType`, `GoodsAmount`, `UpdateStatusDate`, `ReceiverName`, `ReceiverPhone`, `ReceiverCellPhone`, `ReceiverEmail`, `ReceiverAddress`, `CVSPaymentNo`, `CVSValidationNo`, `BookingNote`, `createdate`)';
+        $insert_sql .= ' VALUES (%d, %s, %s, %d, %s, %s, %s, %s, %d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d)';
+        $table = DB_PREFIX . $this->extend_table_name_response; 
+        $now_time  = time() ;
+
+        return $this->db->query(sprintf(
+            $insert_sql,
+            $table,
+            (int)$order_id,
+            $this->db->escape($inputs['MerchantID']),
+            $this->db->escape($inputs['MerchantTradeNo']),
+            $this->db->escape($inputs['RtnCode']),
+            $this->db->escape($inputs['RtnMsg ']),
+            $this->db->escape($inputs['AllPayLogisticsID']),
+            $this->db->escape($inputs['LogisticsType']),
+            $this->db->escape($inputs['LogisticsSubType']),
+            $this->db->escape($inputs['GoodsAmount']),
+            $this->db->escape($inputs['UpdateStatusDate']),
+            $this->db->escape($inputs['ReceiverName']),
+            $this->db->escape($inputs['ReceiverPhone']),
+            $this->db->escape($inputs['ReceiverCellPhone']),
+            $this->db->escape($inputs['ReceiverEmail']),
+            $this->db->escape($inputs['ReceiverAddress']),
+            $this->db->escape($inputs['CVSPaymentNo']),
+            $this->db->escape($inputs['CVSValidationNo']),
+            $this->db->escape($inputs['BookingNote']),
+            $now_time
+        ));
+    }
 }

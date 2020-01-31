@@ -185,9 +185,11 @@ class ControllerExtensionPaymentEcpaypayment extends Controller {
             unset($option_name);
         }
         unset($options);
-        
+       
+ 
         // Default value
         $default_values = array(
+            'status' => 0,
             'merchant_id' => '2000132',
             'hash_key' => '5294y06JbISpM5x9',
             'hash_iv' => 'v77hoKGq4kWxNNIS',
@@ -267,11 +269,10 @@ class ControllerExtensionPaymentEcpaypayment extends Controller {
 
     // uninstall
     public function uninstall() {
-        $this->load->model('setting/setting');
-        $this->load->model('setting/extension');
-
+	$this->load->model('setting/setting');
+        $this->load->model('extension/extension');
         $this->model_setting_setting->deleteSetting($this->request->get['extension']);
-        $this->model_setting_extension->uninstall($this->module_code, $this->request->get['extension']);
+        $this->model_extension_extension->uninstall($this->module_code, $this->request->get['extension']);
 
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "order_extend`;");
     }

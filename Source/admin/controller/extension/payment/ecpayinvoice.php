@@ -457,7 +457,7 @@ class ControllerExtensionPaymentECPayInvoice extends Controller
 						}
 						
 						$RelateNumber	= $order_id ;
-						// $RelateNumber = 'ECPAY'. date('YmdHis') . rand(1000000000,2147483647) ; // 產生測試用自訂訂單編號
+						$RelateNumber = 'ECPAY'. date('YmdHis') . rand(1000000000,2147483647) ; // 產生測試用自訂訂單編號
 						
 						
 						$ecpay_invoice->Send['RelateNumber'] 			= $RelateNumber ;

@@ -7,8 +7,10 @@ function ecpay_create_shipping(url){
         dataType: 'json',
         success: function (sMsg){
             console.log(sMsg)
+            if(sMsg.code != 799){
+                alert(sMsg.msg)
+            }
             
-            alert(sMsg.msg)
             location.reload();
         },
         beforeSend:function(){
@@ -45,3 +47,10 @@ function ecpay_create_shipping(url){
 function ecpay_express_map(url){
     location.href=url;
 }
+
+$( document ).ready(function() {
+    $('#__paymentButton').addClass( "btn btn-primary btn-xs" );
+    $('#ECPayForm').attr("style","display: inline");
+});
+
+
